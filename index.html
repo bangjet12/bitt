@@ -1,0 +1,1191 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NatinySol - Web3 Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&amp;family=Rajdhani:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary-bg: #0a0a0f;
+      --secondary-surface: #13131a;
+      --text-color: #e4e4e7;
+      --primary-action: #8b5cf6;
+      --secondary-action: #06b6d4;
+    }
+    
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-action) var(--secondary-surface);
+    }
+    
+    .font-orbitron { font-family: 'Orbitron', monospace; }
+    .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+    }
+    
+    .glow-purple {
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.3), 0 0 60px rgba(139, 92, 246, 0.1);
+    }
+    
+    .glow-cyan {
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1);
+    }
+    
+    .glass-card {
+      background: rgba(19, 19, 26, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+    
+    .nft-card {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .nft-card:hover {
+      transform: translateY(-10px) scale(1.02);
+    }
+    
+    .tier-standard { border-color: #a1a1aa; }
+    .tier-rare { border-color: #3b82f6; }
+    .tier-legendary { border-color: #f59e0b; }
+    
+    .tier-standard-glow { box-shadow: 0 0 40px rgba(161, 161, 170, 0.3); }
+    .tier-rare-glow { box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); }
+    .tier-legendary-glow { box-shadow: 0 0 40px rgba(245, 158, 11, 0.5); }
+    
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .animate-pulse-glow {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+      transition: width 0.5s ease;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #22d3ee, #06b6d4);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+    }
+    
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
+    }
+    
+    input[type="range"] {
+      -webkit-appearance: none;
+      background: rgba(139, 92, 246, 0.2);
+      border-radius: 10px;
+      height: 8px;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    
+    .toast {
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg text-zinc-200 font-rajdhani overflow-auto">
+  <div id="app" class="min-h-full w-full"><!-- Toast Container -->
+   <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div><!-- Navigation -->
+   <nav class="fixed top-0 left-0 right-0 z-40 glass-card border-b border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="flex items-center justify-between h-16">
+      <div class="flex items-center gap-3">
+       <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+       </div><span id="platform-name" class="font-orbitron font-bold text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">NatinySol</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8"><a href="#home" class="nav-link text-zinc-300 hover:text-white transition-colors">Home</a> <a href="#mint" class="nav-link text-zinc-300 hover:text-white transition-colors">Mint NFT</a> <a href="#marketplace" class="nav-link text-zinc-300 hover:text-white transition-colors">Marketplace</a> <a href="#staking" class="nav-link text-zinc-300 hover:text-white transition-colors">Staking</a> <a href="#governance" class="nav-link text-zinc-300 hover:text-white transition-colors">Governance</a> <a href="#dashboard" class="nav-link text-zinc-300 hover:text-white transition-colors">Dashboard</a>
+      </div><button id="connect-wallet-btn" class="btn-primary px-6 py-2 rounded-lg font-semibold text-white flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+       </svg><span id="wallet-status">Connect Wallet</span> </button>
+     </div>
+    </div>
+   </nav><!-- Hero Section / Landing Page -->
+   <section id="home" class="min-h-screen flex items-center justify-center pt-16 px-4 relative overflow-hidden"><!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+     <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float"></div>
+     <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+    </div>
+    <div class="max-w-6xl mx-auto text-center relative z-10">
+     <div class="mb-8 inline-block">
+      <div class="glass-card px-4 py-2 rounded-full text-sm text-cyan-400 border border-cyan-500/30">
+       🚀 Built on Solana • Lightning Fast • Ultra Low Fees
+      </div>
+     </div>
+     <h1 id="hero-title" class="font-orbitron text-5xl md:text-7xl font-black mb-6 leading-tight"><span class="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent"> The Future of </span> <br><span class="text-white">Digital Assets</span></h1>
+     <p id="hero-subtitle" class="text-xl md:text-2xl text-zinc-400 mb-12 max-w-3xl mx-auto">Mint premium NFTs, trade in our marketplace, stake your tokens, and shape the future through governance. All in one powerful platform.</p>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16"><a href="#mint" class="btn-primary px-8 py-4 rounded-xl font-bold text-lg text-white glow-purple"> Start Minting → </a> <a href="#marketplace" class="btn-secondary px-8 py-4 rounded-xl font-bold text-lg text-white"> Explore Marketplace </a>
+     </div><!-- Stats -->
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="stat-card glass-card rounded-2xl p-6">
+       <div class="font-orbitron text-3xl font-bold text-purple-400">
+        12,847
+       </div>
+       <div class="text-zinc-400">
+        NFTs Minted
+       </div>
+      </div>
+      <div class="stat-card glass-card rounded-2xl p-6">
+       <div class="font-orbitron text-3xl font-bold text-cyan-400">
+        $4.2M
+       </div>
+       <div class="text-zinc-400">
+        Trading Volume
+       </div>
+      </div>
+      <div class="stat-card glass-card rounded-2xl p-6">
+       <div class="font-orbitron text-3xl font-bold text-pink-400">
+        8,432
+       </div>
+       <div class="text-zinc-400">
+        Active Stakers
+       </div>
+      </div>
+      <div class="stat-card glass-card rounded-2xl p-6">
+       <div class="font-orbitron text-3xl font-bold text-amber-400">
+        156
+       </div>
+       <div class="text-zinc-400">
+        Proposals Passed
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <div class="section-divider my-8"></div><!-- Premium NFT Minting Section -->
+   <section id="mint" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-16">
+      <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4"><span class="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Premium NFT Minting</span></h2>
+      <p class="text-zinc-400 text-lg max-w-2xl mx-auto">Choose your tier and mint exclusive NFTs with unique traits and rarity levels</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8"><!-- Standard Tier -->
+      <div class="nft-card glass-card rounded-3xl p-8 border-2 tier-standard relative overflow-hidden">
+       <div class="absolute top-0 right-0 w-32 h-32 bg-zinc-500/10 rounded-full blur-2xl"></div>
+       <div class="relative z-10">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-zinc-400 to-zinc-600 flex items-center justify-center mb-6 tier-standard-glow">
+         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+         </svg>
+        </div>
+        <h3 class="font-orbitron text-2xl font-bold text-white mb-2">Standard</h3>
+        <p class="text-zinc-400 mb-6">Basic tier with common traits and standard rarity</p>
+        <div class="space-y-3 mb-8">
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Mint Price</span> <span class="text-white font-semibold">0.5 SOL</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Supply</span> <span class="text-white font-semibold">5,000</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Rarity</span> <span class="text-zinc-300 font-semibold">Common</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Staking Bonus</span> <span class="text-white font-semibold">1x</span>
+         </div>
+        </div>
+        <div class="mb-4">
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Minted</span> <span class="text-white">3,247 / 5,000</span>
+         </div>
+         <div class="h-2 bg-zinc-700 rounded-full overflow-hidden">
+          <div class="progress-bar h-full rounded-full" style="width: 65%;"></div>
+         </div>
+        </div><button onclick="mintNFT('standard', 0.5)" class="w-full py-4 rounded-xl bg-gradient-to-r from-zinc-500 to-zinc-600 text-white font-bold hover:from-zinc-400 hover:to-zinc-500 transition-all"> Mint Standard NFT </button>
+       </div>
+      </div><!-- Rare Tier -->
+      <div class="nft-card glass-card rounded-3xl p-8 border-2 tier-rare relative overflow-hidden transform md:scale-105">
+       <div class="absolute -top-2 left-1/2 -translate-x-1/2 bg-blue-500 px-4 py-1 rounded-full text-xs font-bold text-white">
+        POPULAR
+       </div>
+       <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+       <div class="relative z-10 pt-4">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center mb-6 tier-rare-glow">
+         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+         </svg>
+        </div>
+        <h3 class="font-orbitron text-2xl font-bold text-white mb-2">Rare</h3>
+        <p class="text-zinc-400 mb-6">Enhanced tier with unique traits and special abilities</p>
+        <div class="space-y-3 mb-8">
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Mint Price</span> <span class="text-blue-400 font-semibold">1.5 SOL</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Supply</span> <span class="text-white font-semibold">2,000</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Rarity</span> <span class="text-blue-400 font-semibold">Rare</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Staking Bonus</span> <span class="text-blue-400 font-semibold">2.5x</span>
+         </div>
+        </div>
+        <div class="mb-4">
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Minted</span> <span class="text-white">1,456 / 2,000</span>
+         </div>
+         <div class="h-2 bg-zinc-700 rounded-full overflow-hidden">
+          <div class="progress-bar h-full rounded-full" style="width: 73%;"></div>
+         </div>
+        </div><button onclick="mintNFT('rare', 1.5)" class="w-full py-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:from-blue-400 hover:to-blue-500 transition-all tier-rare-glow"> Mint Rare NFT </button>
+       </div>
+      </div><!-- Legendary Tier -->
+      <div class="nft-card glass-card rounded-3xl p-8 border-2 tier-legendary relative overflow-hidden">
+       <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl animate-pulse-glow"></div>
+       <div class="relative z-10">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center mb-6 tier-legendary-glow">
+         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+         </svg>
+        </div>
+        <h3 class="font-orbitron text-2xl font-bold text-white mb-2">Legendary</h3>
+        <p class="text-zinc-400 mb-6">Ultra-rare tier with exclusive traits and max benefits</p>
+        <div class="space-y-3 mb-8">
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Mint Price</span> <span class="text-amber-400 font-semibold">5 SOL</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Supply</span> <span class="text-white font-semibold">500</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Rarity</span> <span class="text-amber-400 font-semibold">Legendary</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Staking Bonus</span> <span class="text-amber-400 font-semibold">5x</span>
+         </div>
+        </div>
+        <div class="mb-4">
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Minted</span> <span class="text-white">234 / 500</span>
+         </div>
+         <div class="h-2 bg-zinc-700 rounded-full overflow-hidden">
+          <div class="progress-bar h-full rounded-full" style="width: 47%;"></div>
+         </div>
+        </div><button onclick="mintNFT('legendary', 5)" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold hover:from-amber-400 hover:to-orange-500 transition-all tier-legendary-glow"> Mint Legendary NFT </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <div class="section-divider my-8"></div><!-- NFT Marketplace Section -->
+   <section id="marketplace" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-16">
+      <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4"><span class="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">NFT Marketplace</span></h2>
+      <p class="text-zinc-400 text-lg max-w-2xl mx-auto">Trade NFTs with 2.5% marketplace fee • Instant settlements on Solana</p>
+     </div><!-- Marketplace Filters -->
+     <div class="glass-card rounded-2xl p-6 mb-8">
+      <div class="flex flex-wrap gap-4 items-center justify-between">
+       <div class="flex gap-2"><button onclick="filterMarketplace('all')" class="marketplace-filter active px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/50 text-purple-400 font-semibold transition-all" data-filter="all">All</button> <button onclick="filterMarketplace('standard')" class="marketplace-filter px-4 py-2 rounded-lg bg-zinc-700/50 text-zinc-400 hover:bg-zinc-600/50 transition-all" data-filter="standard">Standard</button> <button onclick="filterMarketplace('rare')" class="marketplace-filter px-4 py-2 rounded-lg bg-zinc-700/50 text-zinc-400 hover:bg-zinc-600/50 transition-all" data-filter="rare">Rare</button> <button onclick="filterMarketplace('legendary')" class="marketplace-filter px-4 py-2 rounded-lg bg-zinc-700/50 text-zinc-400 hover:bg-zinc-600/50 transition-all" data-filter="legendary">Legendary</button>
+       </div>
+       <div class="flex gap-4 items-center"><select class="bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-purple-500 outline-none"> <option>Price: Low to High</option> <option>Price: High to Low</option> <option>Recently Listed</option> <option>Rarity</option> </select>
+       </div>
+      </div>
+     </div><!-- NFT Grid -->
+     <div id="marketplace-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"><!-- NFT Items will be rendered here -->
+     </div><!-- Buy Modal -->
+     <div id="buy-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div class="glass-card rounded-3xl p-8 max-w-md w-full glow-purple">
+       <div class="flex justify-between items-center mb-6">
+        <h3 class="font-orbitron text-2xl font-bold text-white">Confirm Purchase</h3><button onclick="closeBuyModal()" class="text-zinc-400 hover:text-white">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+         </svg></button>
+       </div>
+       <div id="buy-modal-content"></div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <div class="section-divider my-8"></div><!-- Staking Pool Section -->
+   <section id="staking" class="py-20 px-4">
+    <div class="max-w-5xl mx-auto">
+     <div class="text-center mb-16">
+      <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4"><span class="bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">NSOL Staking Pool</span></h2>
+      <p class="text-zinc-400 text-lg max-w-2xl mx-auto">Stake your NSOL tokens and earn rewards • APY based on your NFT tier bonus</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-8"><!-- Staking Stats -->
+      <div class="glass-card rounded-3xl p-8">
+       <h3 class="font-orbitron text-xl font-bold text-white mb-6">Pool Statistics</h3>
+       <div class="space-y-6">
+        <div class="flex justify-between items-center p-4 bg-zinc-800/50 rounded-xl">
+         <div>
+          <div class="text-zinc-400 text-sm">
+           Total Value Locked
+          </div>
+          <div class="font-orbitron text-2xl font-bold text-white">
+           2,456,789 NSOL
+          </div>
+         </div>
+         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-cyan-500 flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+         </div>
+        </div>
+        <div class="flex justify-between items-center p-4 bg-zinc-800/50 rounded-xl">
+         <div>
+          <div class="text-zinc-400 text-sm">
+           Base APY
+          </div>
+          <div class="font-orbitron text-2xl font-bold text-green-400">
+           24.5%
+          </div>
+         </div>
+         <div class="text-zinc-400 text-sm">
+          + NFT Bonus
+         </div>
+        </div>
+        <div class="flex justify-between items-center p-4 bg-zinc-800/50 rounded-xl">
+         <div>
+          <div class="text-zinc-400 text-sm">
+           Reward Pool
+          </div>
+          <div class="font-orbitron text-2xl font-bold text-cyan-400">
+           125,000 NSOL
+          </div>
+         </div>
+         <div class="text-zinc-400 text-sm">
+          This Epoch
+         </div>
+        </div>
+        <div class="flex justify-between items-center p-4 bg-zinc-800/50 rounded-xl">
+         <div>
+          <div class="text-zinc-400 text-sm">
+           Total Stakers
+          </div>
+          <div class="font-orbitron text-2xl font-bold text-white">
+           8,432
+          </div>
+         </div>
+         <div class="text-green-400 text-sm">
+          +12% this week
+         </div>
+        </div>
+       </div>
+      </div><!-- Staking Interface -->
+      <div class="glass-card rounded-3xl p-8">
+       <h3 class="font-orbitron text-xl font-bold text-white mb-6">Stake NSOL</h3>
+       <div class="space-y-6">
+        <div>
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Your Balance</span> <span id="nsol-balance" class="text-white font-semibold">1,000 NSOL</span>
+         </div>
+         <div class="relative"><input type="number" id="stake-amount" placeholder="0.00" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white text-2xl font-orbitron focus:border-purple-500 outline-none" oninput="updateStakePreview()"> <button onclick="setMaxStake()" class="absolute right-4 top-1/2 -translate-y-1/2 text-purple-400 font-semibold hover:text-purple-300">MAX</button>
+         </div>
+        </div>
+        <div class="p-4 bg-zinc-800/50 rounded-xl">
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Your NFT Bonus</span> <span id="nft-bonus" class="text-amber-400 font-semibold">2.5x (Rare)</span>
+         </div>
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Effective APY</span> <span id="effective-apy" class="text-green-400 font-semibold">61.25%</span>
+         </div>
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Est. Daily Reward</span> <span id="daily-reward" class="text-white font-semibold">0 NSOL</span>
+         </div>
+        </div><button onclick="stakeNSOL()" class="w-full btn-primary py-4 rounded-xl font-bold text-lg text-white"> Stake NSOL </button>
+        <div class="border-t border-zinc-700 pt-6">
+         <div class="flex justify-between items-center mb-4">
+          <div>
+           <div class="text-zinc-400 text-sm">
+            Currently Staked
+           </div>
+           <div id="staked-amount" class="font-orbitron text-xl font-bold text-white">
+            500 NSOL
+           </div>
+          </div>
+          <div class="text-right">
+           <div class="text-zinc-400 text-sm">
+            Claimable Rewards
+           </div>
+           <div id="claimable-rewards" class="font-orbitron text-xl font-bold text-green-400">
+            12.45 NSOL
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="claimRewards()" class="flex-1 btn-secondary py-3 rounded-xl font-semibold text-white"> Claim Rewards </button> <button onclick="unstakeNSOL()" class="flex-1 py-3 rounded-xl border border-zinc-600 text-zinc-300 font-semibold hover:bg-zinc-800 transition-all"> Unstake </button>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <div class="section-divider my-8"></div><!-- Governance Voting Section -->
+   <section id="governance" class="py-20 px-4">
+    <div class="max-w-5xl mx-auto">
+     <div class="text-center mb-16">
+      <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4"><span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Governance Voting</span></h2>
+      <p class="text-zinc-400 text-lg max-w-2xl mx-auto">Shape the future of NatinySol • 0.1 SOL proposal fee • 1 NSOL = 1 Vote</p>
+     </div><!-- Voting Power Card -->
+     <div class="glass-card rounded-3xl p-8 mb-8 glow-purple">
+      <div class="flex flex-wrap justify-between items-center gap-4">
+       <div>
+        <div class="text-zinc-400 mb-1">
+         Your Voting Power
+        </div>
+        <div class="font-orbitron text-3xl font-bold text-white">
+         1,500 <span class="text-purple-400">VP</span>
+        </div>
+        <div class="text-zinc-500 text-sm">
+         Based on staked NSOL + NFT bonus
+        </div>
+       </div><button onclick="showCreateProposal()" class="btn-primary px-6 py-3 rounded-xl font-semibold text-white flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg> Create Proposal (0.1 SOL) </button>
+      </div>
+     </div><!-- Proposals List -->
+     <div class="space-y-6" id="proposals-list"><!-- Active Proposal -->
+      <div class="glass-card rounded-2xl p-6 border-l-4 border-green-500">
+       <div class="flex justify-between items-start mb-4">
+        <div><span class="inline-block px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold mb-2">ACTIVE</span>
+         <h4 class="font-orbitron text-xl font-bold text-white">NIP-23: Increase Staking Rewards</h4>
+         <p class="text-zinc-400 mt-2">Proposal to increase base staking APY from 24.5% to 30% to attract more stakers.</p>
+        </div>
+        <div class="text-right">
+         <div class="text-zinc-400 text-sm">
+          Ends in
+         </div>
+         <div class="font-orbitron text-lg text-white">
+          2d 14h 32m
+         </div>
+        </div>
+       </div>
+       <div class="mb-4">
+        <div class="flex justify-between text-sm mb-2"><span class="text-green-400">For: 892,456 VP (67%)</span> <span class="text-red-400">Against: 438,123 VP (33%)</span>
+        </div>
+        <div class="h-3 bg-zinc-700 rounded-full overflow-hidden flex">
+         <div class="bg-gradient-to-r from-green-500 to-green-400 h-full" style="width: 67%;"></div>
+         <div class="bg-gradient-to-r from-red-500 to-red-400 h-full" style="width: 33%;"></div>
+        </div>
+       </div>
+       <div class="flex gap-4"><button onclick="vote('NIP-23', 'for')" class="flex-1 py-3 rounded-xl bg-green-500/20 border border-green-500/50 text-green-400 font-semibold hover:bg-green-500/30 transition-all"> Vote For </button> <button onclick="vote('NIP-23', 'against')" class="flex-1 py-3 rounded-xl bg-red-500/20 border border-red-500/50 text-red-400 font-semibold hover:bg-red-500/30 transition-all"> Vote Against </button>
+       </div>
+      </div><!-- Pending Proposal -->
+      <div class="glass-card rounded-2xl p-6 border-l-4 border-amber-500">
+       <div class="flex justify-between items-start mb-4">
+        <div><span class="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-semibold mb-2">PENDING</span>
+         <h4 class="font-orbitron text-xl font-bold text-white">NIP-24: New Legendary NFT Collection</h4>
+         <p class="text-zinc-400 mt-2">Launch a new series of Legendary NFTs with animated traits and exclusive perks.</p>
+        </div>
+        <div class="text-right">
+         <div class="text-zinc-400 text-sm">
+          Starts in
+         </div>
+         <div class="font-orbitron text-lg text-white">
+          1d 6h
+         </div>
+        </div>
+       </div>
+       <div class="p-4 bg-zinc-800/50 rounded-xl">
+        <div class="flex justify-between text-sm"><span class="text-zinc-400">Proposed by</span> <span class="text-purple-400 font-mono">0x7a3...f92</span>
+        </div>
+       </div>
+      </div><!-- Passed Proposal -->
+      <div class="glass-card rounded-2xl p-6 border-l-4 border-purple-500 opacity-75">
+       <div class="flex justify-between items-start mb-4">
+        <div><span class="inline-block px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-semibold mb-2">PASSED</span>
+         <h4 class="font-orbitron text-xl font-bold text-white">NIP-22: Reduce Marketplace Fee</h4>
+         <p class="text-zinc-400 mt-2">Reduced marketplace fee from 3% to 2.5% to improve trading competitiveness.</p>
+        </div>
+        <div class="text-right">
+         <div class="text-zinc-400 text-sm">
+          Executed
+         </div>
+         <div class="font-orbitron text-lg text-white">
+          3 days ago
+         </div>
+        </div>
+       </div>
+       <div class="mb-4">
+        <div class="flex justify-between text-sm mb-2"><span class="text-green-400">For: 1,234,567 VP (82%)</span> <span class="text-red-400">Against: 267,890 VP (18%)</span>
+        </div>
+        <div class="h-3 bg-zinc-700 rounded-full overflow-hidden flex">
+         <div class="bg-gradient-to-r from-green-500 to-green-400 h-full" style="width: 82%;"></div>
+         <div class="bg-gradient-to-r from-red-500 to-red-400 h-full" style="width: 18%;"></div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Create Proposal Modal -->
+     <div id="proposal-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div class="glass-card rounded-3xl p-8 max-w-lg w-full glow-purple">
+       <div class="flex justify-between items-center mb-6">
+        <h3 class="font-orbitron text-2xl font-bold text-white">Create Proposal</h3><button onclick="closeProposalModal()" class="text-zinc-400 hover:text-white">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+         </svg></button>
+       </div>
+       <form onsubmit="submitProposal(event)" class="space-y-4">
+        <div><label class="block text-zinc-400 text-sm mb-2" for="proposal-title">Title</label> <input type="text" id="proposal-title" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white focus:border-purple-500 outline-none" placeholder="Enter proposal title" required>
+        </div>
+        <div><label class="block text-zinc-400 text-sm mb-2" for="proposal-desc">Description</label> <textarea id="proposal-desc" rows="4" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white focus:border-purple-500 outline-none resize-none" placeholder="Describe your proposal" required></textarea>
+        </div>
+        <div class="p-4 bg-purple-500/10 rounded-xl border border-purple-500/30">
+         <div class="flex justify-between text-sm"><span class="text-zinc-400">Proposal Fee</span> <span class="text-purple-400 font-semibold">0.1 SOL</span>
+         </div>
+        </div><button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold text-lg text-white"> Submit Proposal </button>
+       </form>
+      </div>
+     </div>
+    </div>
+   </section>
+   <div class="section-divider my-8"></div><!-- Revenue Dashboard Section -->
+   <section id="dashboard" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-16">
+      <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4"><span class="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">Revenue Dashboard</span></h2>
+      <p class="text-zinc-400 text-lg max-w-2xl mx-auto">Developer earnings from platform fees • Real-time analytics</p>
+     </div><!-- Revenue Overview -->
+     <div class="grid md:grid-cols-4 gap-6 mb-8">
+      <div class="glass-card rounded-2xl p-6 border-t-4 border-purple-500">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
+         <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+         </svg>
+        </div><span class="text-green-400 text-sm font-semibold">+15.3%</span>
+       </div>
+       <div class="font-orbitron text-2xl font-bold text-white mb-1">
+        245.6 SOL
+       </div>
+       <div class="text-zinc-400 text-sm">
+        Minting Revenue
+       </div>
+      </div>
+      <div class="glass-card rounded-2xl p-6 border-t-4 border-cyan-500">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+         <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+         </svg>
+        </div><span class="text-green-400 text-sm font-semibold">+8.7%</span>
+       </div>
+       <div class="font-orbitron text-2xl font-bold text-white mb-1">
+        89.2 SOL
+       </div>
+       <div class="text-zinc-400 text-sm">
+        Marketplace Fees (2.5%)
+       </div>
+      </div>
+      <div class="glass-card rounded-2xl p-6 border-t-4 border-green-500">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+         <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+         </svg>
+        </div><span class="text-green-400 text-sm font-semibold">+22.1%</span>
+       </div>
+       <div class="font-orbitron text-2xl font-bold text-white mb-1">
+        12.4 SOL
+       </div>
+       <div class="text-zinc-400 text-sm">
+        Staking Fees
+       </div>
+      </div>
+      <div class="glass-card rounded-2xl p-6 border-t-4 border-amber-500">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
+         <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+         </svg>
+        </div><span class="text-green-400 text-sm font-semibold">+5.2%</span>
+       </div>
+       <div class="font-orbitron text-2xl font-bold text-white mb-1">
+        15.6 SOL
+       </div>
+       <div class="text-zinc-400 text-sm">
+        Governance Fees
+       </div>
+      </div>
+     </div><!-- Charts Row -->
+     <div class="grid md:grid-cols-2 gap-8 mb-8"><!-- Revenue Chart -->
+      <div class="glass-card rounded-3xl p-8">
+       <h3 class="font-orbitron text-xl font-bold text-white mb-6">Revenue Breakdown</h3>
+       <div class="space-y-4">
+        <div>
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Minting</span> <span class="text-white">67.8%</span>
+         </div>
+         <div class="h-4 bg-zinc-700 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full" style="width: 67.8%;"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Marketplace</span> <span class="text-white">24.6%</span>
+         </div>
+         <div class="h-4 bg-zinc-700 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 rounded-full" style="width: 24.6%;"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Governance</span> <span class="text-white">4.3%</span>
+         </div>
+         <div class="h-4 bg-zinc-700 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full" style="width: 4.3%;"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between text-sm mb-2"><span class="text-zinc-400">Staking</span> <span class="text-white">3.3%</span>
+         </div>
+         <div class="h-4 bg-zinc-700 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full" style="width: 3.3%;"></div>
+         </div>
+        </div>
+       </div>
+       <div class="mt-8 p-4 bg-zinc-800/50 rounded-xl">
+        <div class="flex justify-between items-center">
+         <div>
+          <div class="text-zinc-400 text-sm">
+           Total Revenue
+          </div>
+          <div class="font-orbitron text-3xl font-bold text-white">
+           362.8 SOL
+          </div>
+         </div>
+         <div class="text-right">
+          <div class="text-zinc-400 text-sm">
+           ≈ USD Value
+          </div>
+          <div class="font-orbitron text-2xl font-bold text-green-400">
+           $54,420
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Activity Chart -->
+      <div class="glass-card rounded-3xl p-8">
+       <h3 class="font-orbitron text-xl font-bold text-white mb-6">Weekly Activity</h3>
+       <div class="flex items-end justify-between h-48 gap-2">
+        <div class="flex-1 flex flex-col items-center gap-2">
+         <div class="w-full bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t-lg" style="height: 60%;"></div><span class="text-zinc-400 text-xs">Mon</span>
+        </div>
+        <div class="flex-1 flex flex-col items-center gap-2">
+         <div class="w-full bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t-lg" style="height: 80%;"></div><span class="text-zinc-400 text-xs">Tue</span>
+        </div>
+        <div class="flex-1 flex flex-col items-center gap-2">
+         <div class="w-full bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t-lg" style="height: 45%;"></div><span class="text-zinc-400 text-xs">Wed</span>
+        </div>
+        <div class="flex-1 flex flex-col items-center gap-2">
+         <div class="w-full bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t-lg" style="height: 90%;"></div><span class="text-zinc-400 text-xs">Thu</span>
+        </div>
+        <div class="flex-1 flex flex-col items-center gap-2">
+         <div class="w-full bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t-lg" style="height: 70%;"></div><span class="text-zinc-400 text-xs">Fri</span>
+        </div>
+        <div class="flex-1 flex flex-col items-center gap-2">
+         <div class="w-full bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t-lg" style="height: 100%;"></div><span class="text-zinc-400 text-xs">Sat</span>
+        </div>
+        <div class="flex-1 flex flex-col items-center gap-2">
+         <div class="w-full bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t-lg" style="height: 55%;"></div><span class="text-zinc-400 text-xs">Sun</span>
+        </div>
+       </div>
+       <div class="grid grid-cols-3 gap-4 mt-8">
+        <div class="text-center p-3 bg-zinc-800/50 rounded-xl">
+         <div class="font-orbitron text-xl font-bold text-white">
+          1,247
+         </div>
+         <div class="text-zinc-400 text-xs">
+          Transactions
+         </div>
+        </div>
+        <div class="text-center p-3 bg-zinc-800/50 rounded-xl">
+         <div class="font-orbitron text-xl font-bold text-white">
+          432
+         </div>
+         <div class="text-zinc-400 text-xs">
+          New Users
+         </div>
+        </div>
+        <div class="text-center p-3 bg-zinc-800/50 rounded-xl">
+         <div class="font-orbitron text-xl font-bold text-white">
+          89
+         </div>
+         <div class="text-zinc-400 text-xs">
+          NFTs Minted
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Recent Transactions -->
+     <div class="glass-card rounded-3xl p-8">
+      <h3 class="font-orbitron text-xl font-bold text-white mb-6">Recent Fee Transactions</h3>
+      <div class="overflow-x-auto">
+       <table class="w-full">
+        <thead>
+         <tr class="text-left text-zinc-400 text-sm border-b border-zinc-700">
+          <th class="pb-4">Type</th>
+          <th class="pb-4">From</th>
+          <th class="pb-4">Amount</th>
+          <th class="pb-4">Fee</th>
+          <th class="pb-4">Time</th>
+         </tr>
+        </thead>
+        <tbody class="text-sm">
+         <tr class="border-b border-zinc-800">
+          <td class="py-4"><span class="px-2 py-1 rounded bg-purple-500/20 text-purple-400">Mint</span></td>
+          <td class="py-4 font-mono text-zinc-300">0x7a3...f92</td>
+          <td class="py-4 text-white">5 SOL</td>
+          <td class="py-4 text-green-400">+5 SOL</td>
+          <td class="py-4 text-zinc-400">2 min ago</td>
+         </tr>
+         <tr class="border-b border-zinc-800">
+          <td class="py-4"><span class="px-2 py-1 rounded bg-cyan-500/20 text-cyan-400">Sale</span></td>
+          <td class="py-4 font-mono text-zinc-300">0x2b8...e41</td>
+          <td class="py-4 text-white">12 SOL</td>
+          <td class="py-4 text-green-400">+0.3 SOL</td>
+          <td class="py-4 text-zinc-400">5 min ago</td>
+         </tr>
+         <tr class="border-b border-zinc-800">
+          <td class="py-4"><span class="px-2 py-1 rounded bg-amber-500/20 text-amber-400">Vote</span></td>
+          <td class="py-4 font-mono text-zinc-300">0x9c1...d73</td>
+          <td class="py-4 text-white">0.1 SOL</td>
+          <td class="py-4 text-green-400">+0.1 SOL</td>
+          <td class="py-4 text-zinc-400">12 min ago</td>
+         </tr>
+         <tr class="border-b border-zinc-800">
+          <td class="py-4"><span class="px-2 py-1 rounded bg-purple-500/20 text-purple-400">Mint</span></td>
+          <td class="py-4 font-mono text-zinc-300">0x5f2...a89</td>
+          <td class="py-4 text-white">1.5 SOL</td>
+          <td class="py-4 text-green-400">+1.5 SOL</td>
+          <td class="py-4 text-zinc-400">18 min ago</td>
+         </tr>
+         <tr>
+          <td class="py-4"><span class="px-2 py-1 rounded bg-cyan-500/20 text-cyan-400">Sale</span></td>
+          <td class="py-4 font-mono text-zinc-300">0x8d4...c56</td>
+          <td class="py-4 text-white">8 SOL</td>
+          <td class="py-4 text-green-400">+0.2 SOL</td>
+          <td class="py-4 text-zinc-400">24 min ago</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="py-12 px-4 border-t border-zinc-800">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex items-center gap-3">
+       <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+       </div><span class="font-orbitron font-bold text-xl text-white">NatinySol</span>
+      </div>
+      <div class="flex gap-6 text-zinc-400"><a href="#" class="hover:text-purple-400 transition-colors">Docs</a> <a href="#" class="hover:text-purple-400 transition-colors">GitHub</a> <a href="#" class="hover:text-purple-400 transition-colors">Discord</a> <a href="#" class="hover:text-purple-400 transition-colors">Twitter</a>
+      </div>
+      <div class="text-zinc-500 text-sm">
+       © 2024 NatinySol. Built on Solana.
+      </div>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Configuration
+    const defaultConfig = {
+      platform_name: 'NatinySol',
+      hero_title: 'The Future of Digital Assets',
+      hero_subtitle: 'Mint premium NFTs, trade in our marketplace, stake your tokens, and shape the future through governance. All in one powerful platform.',
+      primary_color: '#8b5cf6',
+      secondary_color: '#06b6d4',
+      text_color: '#e4e4e7',
+      background_color: '#0a0a0f',
+      surface_color: '#13131a'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Wallet State
+    let walletConnected = false;
+    let walletAddress = '';
+
+    // Sample NFT Data for Marketplace
+    const nftData = [
+      { id: 1, name: 'Cyber Phoenix #1247', tier: 'legendary', price: 45, image: '🔥', seller: '0x7a3...f92' },
+      { id: 2, name: 'Neon Wolf #892', tier: 'rare', price: 12, image: '🐺', seller: '0x2b8...e41' },
+      { id: 3, name: 'Digital Spirit #456', tier: 'standard', price: 2.5, image: '👻', seller: '0x9c1...d73' },
+      { id: 4, name: 'Quantum Cat #2103', tier: 'rare', price: 8.5, image: '🐱', seller: '0x5f2...a89' },
+      { id: 5, name: 'Astral Dragon #77', tier: 'legendary', price: 78, image: '🐉', seller: '0x8d4...c56' },
+      { id: 6, name: 'Pixel Knight #1899', tier: 'standard', price: 1.8, image: '⚔️', seller: '0x3e7...b12' },
+      { id: 7, name: 'Void Walker #543', tier: 'rare', price: 15, image: '🌀', seller: '0x6a9...c34' },
+      { id: 8, name: 'Crystal Owl #321', tier: 'standard', price: 3.2, image: '🦉', seller: '0x1d5...e67' }
+    ];
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...config, ...newConfig };
+          updateUI();
+        },
+        mapToCapabilities: (cfg) => ({
+          recolorables: [
+            {
+              get: () => cfg.primary_color || defaultConfig.primary_color,
+              set: (v) => { cfg.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
+            },
+            {
+              get: () => cfg.secondary_color || defaultConfig.secondary_color,
+              set: (v) => { cfg.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); }
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+            },
+            {
+              get: () => cfg.background_color || defaultConfig.background_color,
+              set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+            },
+            {
+              get: () => cfg.surface_color || defaultConfig.surface_color,
+              set: (v) => { cfg.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['platform_name', cfg.platform_name || defaultConfig.platform_name],
+          ['hero_title', cfg.hero_title || defaultConfig.hero_title],
+          ['hero_subtitle', cfg.hero_subtitle || defaultConfig.hero_subtitle]
+        ])
+      });
+    }
+
+    // Update UI based on config
+    function updateUI() {
+      document.getElementById('platform-name').textContent = config.platform_name || defaultConfig.platform_name;
+      document.getElementById('hero-title').innerHTML = `<span class="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">${config.hero_title || defaultConfig.hero_title}</span>`;
+      document.getElementById('hero-subtitle').textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      
+      // Update CSS variables
+      document.documentElement.style.setProperty('--primary-action', config.primary_color || defaultConfig.primary_color);
+      document.documentElement.style.setProperty('--secondary-action', config.secondary_color || defaultConfig.secondary_color);
+      document.documentElement.style.setProperty('--text-color', config.text_color || defaultConfig.text_color);
+      document.documentElement.style.setProperty('--primary-bg', config.background_color || defaultConfig.background_color);
+      document.documentElement.style.setProperty('--secondary-surface', config.surface_color || defaultConfig.surface_color);
+    }
+
+    // Toast notification
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-purple-500';
+      toast.className = `toast ${bgColor} text-white px-6 py-3 rounded-xl font-semibold shadow-lg`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Wallet Connection
+    document.getElementById('connect-wallet-btn').addEventListener('click', () => {
+      if (!walletConnected) {
+        walletConnected = true;
+        walletAddress = '0x' + Math.random().toString(16).substr(2, 8) + '...' + Math.random().toString(16).substr(2, 4);
+        document.getElementById('wallet-status').textContent = walletAddress;
+        document.getElementById('connect-wallet-btn').classList.remove('btn-primary');
+        document.getElementById('connect-wallet-btn').classList.add('bg-green-600', 'hover:bg-green-700');
+        showToast('Wallet connected successfully!');
+      } else {
+        walletConnected = false;
+        walletAddress = '';
+        document.getElementById('wallet-status').textContent = 'Connect Wallet';
+        document.getElementById('connect-wallet-btn').classList.add('btn-primary');
+        document.getElementById('connect-wallet-btn').classList.remove('bg-green-600', 'hover:bg-green-700');
+        showToast('Wallet disconnected', 'info');
+      }
+    });
+
+    // NFT Minting
+    function mintNFT(tier, price) {
+      if (!walletConnected) {
+        showToast('Please connect your wallet first', 'error');
+        return;
+      }
+      showToast(`Minting ${tier} NFT for ${price} SOL...`, 'info');
+      setTimeout(() => {
+        showToast(`🎉 Successfully minted ${tier.charAt(0).toUpperCase() + tier.slice(1)} NFT!`);
+      }, 2000);
+    }
+
+    // Marketplace Functions
+    function renderMarketplace(filter = 'all') {
+      const grid = document.getElementById('marketplace-grid');
+      const filtered = filter === 'all' ? nftData : nftData.filter(nft => nft.tier === filter);
+      
+      grid.innerHTML = filtered.map(nft => {
+        const tierColors = {
+          standard: { border: 'border-zinc-500', bg: 'bg-zinc-500/10', text: 'text-zinc-400' },
+          rare: { border: 'border-blue-500', bg: 'bg-blue-500/10', text: 'text-blue-400' },
+          legendary: { border: 'border-amber-500', bg: 'bg-amber-500/10', text: 'text-amber-400' }
+        };
+        const colors = tierColors[nft.tier];
+        
+        return `
+          <div class="nft-card glass-card rounded-2xl overflow-hidden border ${colors.border}">
+            <div class="aspect-square ${colors.bg} flex items-center justify-center text-6xl">
+              ${nft.image}
+            </div>
+            <div class="p-4">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-orbitron font-bold text-white text-sm">${nft.name}</h4>
+                <span class="px-2 py-0.5 rounded text-xs ${colors.bg} ${colors.text} capitalize">${nft.tier}</span>
+              </div>
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-zinc-400 text-xs">Seller: ${nft.seller}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <div>
+                  <span class="text-zinc-400 text-xs">Price</span>
+                  <div class="font-orbitron font-bold text-white">${nft.price} SOL</div>
+                </div>
+                <button onclick="openBuyModal(${nft.id})" class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold text-white">
+                  Buy
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterMarketplace(filter) {
+      document.querySelectorAll('.marketplace-filter').forEach(btn => {
+        btn.classList.remove('bg-purple-500/20', 'border', 'border-purple-500/50', 'text-purple-400');
+        btn.classList.add('bg-zinc-700/50', 'text-zinc-400');
+      });
+      document.querySelector(`[data-filter="${filter}"]`).classList.remove('bg-zinc-700/50', 'text-zinc-400');
+      document.querySelector(`[data-filter="${filter}"]`).classList.add('bg-purple-500/20', 'border', 'border-purple-500/50', 'text-purple-400');
+      renderMarketplace(filter);
+    }
+
+    function openBuyModal(id) {
+      if (!walletConnected) {
+        showToast('Please connect your wallet first', 'error');
+        return;
+      }
+      const nft = nftData.find(n => n.id === id);
+      const fee = (nft.price * 0.025).toFixed(3);
+      const modal = document.getElementById('buy-modal');
+      const content = document.getElementById('buy-modal-content');
+      
+      content.innerHTML = `
+        <div class="text-center mb-6">
+          <div class="w-24 h-24 mx-auto rounded-2xl bg-zinc-800 flex items-center justify-center text-5xl mb-4">
+            ${nft.image}
+          </div>
+          <h4 class="font-orbitron font-bold text-white text-lg">${nft.name}</h4>
+          <span class="text-zinc-400 capitalize">${nft.tier}</span>
+        </div>
+        <div class="space-y-3 mb-6">
+          <div class="flex justify-between p-3 bg-zinc-800/50 rounded-xl">
+            <span class="text-zinc-400">Price</span>
+            <span class="text-white font-semibold">${nft.price} SOL</span>
+          </div>
+          <div class="flex justify-between p-3 bg-zinc-800/50 rounded-xl">
+            <span class="text-zinc-400">Marketplace Fee (2.5%)</span>
+            <span class="text-amber-400 font-semibold">${fee} SOL</span>
+          </div>
+          <div class="flex justify-between p-3 bg-purple-500/10 rounded-xl border border-purple-500/30">
+            <span class="text-zinc-300">Total</span>
+            <span class="text-white font-bold">${(parseFloat(nft.price) + parseFloat(fee)).toFixed(3)} SOL</span>
+          </div>
+        </div>
+        <button onclick="confirmBuy(${nft.id})" class="w-full btn-primary py-4 rounded-xl font-bold text-lg text-white">
+          Confirm Purchase
+        </button>
+      `;
+      
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeBuyModal() {
+      const modal = document.getElementById('buy-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function confirmBuy(id) {
+      const nft = nftData.find(n => n.id === id);
+      closeBuyModal();
+      showToast(`Purchasing ${nft.name}...`, 'info');
+      setTimeout(() => {
+        showToast(`🎉 Successfully purchased ${nft.name}!`);
+      }, 2000);
+    }
+
+    // Staking Functions
+    function updateStakePreview() {
+      const amount = parseFloat(document.getElementById('stake-amount').value) || 0;
+      const baseAPY = 24.5;
+      const bonus = 2.5; // Rare NFT bonus
+      const effectiveAPY = baseAPY * bonus;
+      const dailyReward = (amount * (effectiveAPY / 100) / 365).toFixed(4);
+      
+      document.getElementById('daily-reward').textContent = `${dailyReward} NSOL`;
+    }
+
+    function setMaxStake() {
+      document.getElementById('stake-amount').value = 1000;
+      updateStakePreview();
+    }
+
+    function stakeNSOL() {
+      if (!walletConnected) {
+        showToast('Please connect your wallet first', 'error');
+        return;
+      }
+      const amount = parseFloat(document.getElementById('stake-amount').value) || 0;
+      if (amount <= 0) {
+        showToast('Please enter a valid amount', 'error');
+        return;
+      }
+      showToast(`Staking ${amount} NSOL...`, 'info');
+      setTimeout(() => {
+        showToast(`🎉 Successfully staked ${amount} NSOL!`);
+        document.getElementById('stake-amount').value = '';
+        updateStakePreview();
+      }, 2000);
+    }
+
+    function claimRewards() {
+      if (!walletConnected) {
+        showToast('Please connect your wallet first', 'error');
+        return;
+      }
+      showToast('Claiming rewards...', 'info');
+      setTimeout(() => {
+        showToast('🎉 Claimed 12.45 NSOL rewards!');
+        document.getElementById('claimable-rewards').textContent = '0 NSOL';
+      }, 2000);
+    }
+
+    function unstakeNSOL() {
+      if (!walletConnected) {
+        showToast('Please connect your wallet first', 'error');
+        return;
+      }
+      showToast('Unstaking NSOL...', 'info');
+      setTimeout(() => {
+        showToast('🎉 Successfully unstaked 500 NSOL!');
+        document.getElementById('staked-amount').textContent = '0 NSOL';
+      }, 2000);
+    }
+
+    // Governance Functions
+    function showCreateProposal() {
+      if (!walletConnected) {
+        showToast('Please connect your wallet first', 'error');
+        return;
+      }
+      const modal = document.getElementById('proposal-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProposalModal() {
+      const modal = document.getElementById('proposal-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitProposal(e) {
+      e.preventDefault();
+      const title = document.getElementById('proposal-title').value;
+      closeProposalModal();
+      showToast('Submitting proposal...', 'info');
+      setTimeout(() => {
+        showToast(`🎉 Proposal "${title}" submitted!`);
+        document.getElementById('proposal-title').value = '';
+        document.getElementById('proposal-desc').value = '';
+      }, 2000);
+    }
+
+    function vote(proposalId, voteType) {
+      if (!walletConnected) {
+        showToast('Please connect your wallet first', 'error');
+        return;
+      }
+      showToast(`Voting ${voteType} on ${proposalId}...`, 'info');
+      setTimeout(() => {
+        showToast(`🎉 Vote recorded! You voted ${voteType} on ${proposalId}`);
+      }, 2000);
+    }
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Initialize
+    renderMarketplace();
+    updateUI();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6ba54e6203dd4a',t:'MTc2OTg4ODA1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
